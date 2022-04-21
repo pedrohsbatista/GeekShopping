@@ -9,7 +9,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{C5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekShopping.Web", "GeekShopping.Web\GeekShopping.Web.csproj", "{23749689-70E5-467E-9429-04BEDC093B50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekShopping.ProductApi", "GeekShopping.ProductApi\GeekShopping.ProductApi.csproj", "{AEA7D52D-284B-4468-A7C8-E6C88D1618AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekShopping.ProductApi", "GeekShopping.ProductApi\GeekShopping.ProductApi.csproj", "{AEA7D52D-284B-4468-A7C8-E6C88D1618AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekShopping.IdentityServer", "GeekShopping.IdentityServer\GeekShopping.IdentityServer.csproj", "{6FA0A8D3-A748-438F-8115-7884D6D67063}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +27,10 @@ Global
 		{AEA7D52D-284B-4468-A7C8-E6C88D1618AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEA7D52D-284B-4468-A7C8-E6C88D1618AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEA7D52D-284B-4468-A7C8-E6C88D1618AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FA0A8D3-A748-438F-8115-7884D6D67063}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FA0A8D3-A748-438F-8115-7884D6D67063}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FA0A8D3-A748-438F-8115-7884D6D67063}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FA0A8D3-A748-438F-8115-7884D6D67063}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +38,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{23749689-70E5-467E-9429-04BEDC093B50} = {D54C1E0B-5925-493B-94D4-217E80E1D5F9}
 		{AEA7D52D-284B-4468-A7C8-E6C88D1618AA} = {C5AFA8E9-1936-449A-A728-6F5CC07246DE}
+		{6FA0A8D3-A748-438F-8115-7884D6D67063} = {C5AFA8E9-1936-449A-A728-6F5CC07246DE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {45B40961-AFB5-4AF8-BD3E-E23A8426190C}
