@@ -2,7 +2,6 @@ using GeekShopping.IdentityServer.Configuration;
 using GeekShopping.IdentityServer.Model.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +36,9 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
+
+app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseRouting();
