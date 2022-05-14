@@ -1,6 +1,7 @@
 using AutoMapper;
 using GeekShopping.CartApi.Config;
 using GeekShopping.CartApi.Model.Context;
+using GeekShopping.CartApi.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -17,6 +18,8 @@ builder.Services.AddDbContext<MySqlContext>(options =>
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddScoped<ICartRepository, CartRepository>();
 
 builder.Services.AddControllers();
 
