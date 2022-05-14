@@ -29,7 +29,15 @@ namespace GeekShopping.CartApi.Repository
 
         public async Task<CartVO> FindCartByUserId(string userId)
         {
-            throw new NotImplementedException();
+            Cart cart = new()
+            {
+                CartHeader = await _mySqlContext.CartHeaders.FirstOrDefaultAsync(x => x.UserId == userId)
+            };
+
+            cart.CartDetails = _mySqlContext.CartDetails.Where(x => x.CartHeaderId == cart.CartHeader.Id)
+                                                              .Include(x => x.Product);
+
+            return _mapper.Map<CartVO>(cart);
         }
 
         public async Task<bool> RemoveCoupon(string userId)
