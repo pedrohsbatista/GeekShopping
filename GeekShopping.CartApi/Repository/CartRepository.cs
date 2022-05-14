@@ -24,7 +24,20 @@ namespace GeekShopping.CartApi.Repository
 
         public async Task<bool> ClearCart(string userId)
         {
-            throw new NotImplementedException();
+            var cardHeader = await _mySqlContext.CartHeaders.FirstOrDefaultAsync(x => x.UserId == userId);
+
+            if (cardHeader != null)
+            {
+                _mySqlContext.CartDetails.RemoveRange(_mySqlContext.CartDetails.Where(x => x.CartHeaderId == cardHeader.Id));
+
+                _mySqlContext.CartHeaders.Remove(cardHeader);
+
+                await _mySqlContext.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<CartVO> FindCartByUserId(string userId)
