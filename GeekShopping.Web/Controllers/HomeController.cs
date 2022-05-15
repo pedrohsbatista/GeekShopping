@@ -61,6 +61,8 @@ namespace GeekShopping.Web.Controllers
                 cartDetail
             };
 
+            cart.CartDetails = cartDetailsViewModel;
+
             var response = await _cartService.AddItemToCart(cart, token);
 
             if (response != null)

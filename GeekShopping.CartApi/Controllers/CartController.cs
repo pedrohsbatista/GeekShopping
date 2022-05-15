@@ -1,6 +1,5 @@
 ﻿using GeekShopping.CartApi.Data.ValueObjects;
 using GeekShopping.CartApi.Repository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeekShopping.CartApi.Controllers
@@ -29,13 +28,13 @@ namespace GeekShopping.CartApi.Controllers
 
         [HttpPost("add-cart")]
         public async Task<ActionResult<CartVO>> AddCart(CartVO cartVO)
-        {
+        {            
             var cart = await _repository.SaveOrUpdateCart(cartVO);
 
             if (cart == null)
                 return NotFound();
 
-            return Ok(cart);
+            return Ok(cart);            
         }
 
         [HttpPut("update-cart")]
