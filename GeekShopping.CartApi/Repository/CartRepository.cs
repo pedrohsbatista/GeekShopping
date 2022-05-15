@@ -114,7 +114,7 @@ namespace GeekShopping.CartApi.Repository
                                                                      && x.CartHeaderId == cartHeader.Id);
                 if (cartDetails == null)
                 {
-                    cart.CartDetails.FirstOrDefault().CartHeaderId = cart.CartHeader.Id;
+                    cart.CartDetails.FirstOrDefault().CartHeaderId = cartHeader.Id;
                     cart.CartDetails.FirstOrDefault().Product = null;
                     _mySqlContext.CartDetails.Add(cart.CartDetails.FirstOrDefault());
                     await _mySqlContext.SaveChangesAsync();
