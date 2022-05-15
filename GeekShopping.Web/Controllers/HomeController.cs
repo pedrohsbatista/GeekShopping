@@ -11,11 +11,13 @@ namespace GeekShopping.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IProductService _productService;
+        private readonly ICartService _cartService;
 
-        public HomeController(ILogger<HomeController> logger, IProductService productService)
+        public HomeController(ILogger<HomeController> logger, IProductService productService, ICartService cartService)
         {
             _logger = logger;
             _productService = productService;
+            _cartService = cartService;
         }
 
         public async Task<IActionResult> Index()
@@ -30,6 +32,41 @@ namespace GeekShopping.Web.Controllers
             var token = await HttpContext.GetTokenAsync("access_token");
             var product = await _productService.FindProductById(id, token);
             return View(product);
+        }
+
+        [HttpPost]
+        [Authorize]        
+        [ActionName("Details")]
+        public async Task<IActionResult> DetailsPost(ProductViewModel productViewModel)
+        {
+            var token = await HttpContext.GetTokenAsync("access_token");
+
+            CartViewModel cart = new CartViewModel
+            {
+                CartHeader = new CartHeaderViewModel
+                {
+                    UserId = User.Claims.Where(x => x.Type == "sub")?.FirstOrDefault()?.Value
+                }
+            };
+
+            CartDetailViewModel cartDetail = new CartDetailViewModel
+            {
+                Count = productViewModel.Count,
+                ProductId = productViewModel.Id,
+                Product = await _productService.FindProductById(productViewModel.Id, token)
+            };
+
+            List<CartDetailViewModel> cartDetailsViewModel = new List<CartDetailViewModel>
+            {
+                cartDetail
+            };
+
+            var response = await _cartService.AddItemToCart(cart, token);
+
+            if (response != null)
+                return RedirectToAction(nameof(Index));
+
+            return View(productViewModel);
         }
 
         public IActionResult Privacy()
