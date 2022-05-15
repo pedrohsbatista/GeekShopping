@@ -1,12 +1,12 @@
 ﻿namespace GeekShopping.Web.Models
 {
-    public class CardDetailViewModel
+    public class CartDetailViewModel
     {
         public long Id { get; set; }
 
-        public long CardHeaderId { get; set; }
+        public long CartHeaderId { get; set; }
 
-        public CardHeaderViewModel CardHeader { get; set; }
+        public CartHeaderViewModel CartHeader { get; set; }
 
         public long ProductId { get; set; }
 
