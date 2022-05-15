@@ -9,6 +9,11 @@ builder.Services.AddHttpClient<IProductService, ProductService>(options =>
     options.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"]);
 });
 
+builder.Services.AddHttpClient<ICartService, CartService>(options =>
+{
+    options.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CartAPI"]);
+});
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
