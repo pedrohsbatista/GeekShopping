@@ -44,7 +44,7 @@ namespace GeekShopping.CartApi.Repository
         {
             Cart cart = new()
             {
-                CartHeader = await _mySqlContext.CartHeaders.FirstOrDefaultAsync(x => x.UserId == userId)
+                CartHeader = await _mySqlContext.CartHeaders.FirstOrDefaultAsync(x => x.UserId == userId) ?? new CartHeader()
             };
 
             cart.CartDetails = _mySqlContext.CartDetails.Where(x => x.CartHeaderId == cart.CartHeader.Id)
