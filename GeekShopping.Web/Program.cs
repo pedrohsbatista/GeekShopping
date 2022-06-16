@@ -14,10 +14,10 @@ builder.Services.AddHttpClient<ICartService, CartService>(options =>
     options.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CartAPI"]);
 });
 
-//builder.Services.AddHttpClient<ICouponService, CouponService>(options =>
-//{
-//    options.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CouponAPI"]);
-//});
+builder.Services.AddHttpClient<ICouponService, CouponService>(options =>
+{
+    options.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CouponAPI"]);
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

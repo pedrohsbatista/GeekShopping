@@ -17,9 +17,19 @@ namespace GeekShopping.CartApi.Repository
             _mapper = mapper;
         }
 
-        public async Task<bool> ApplyCoupon(string userId, long couponCode)
+        public async Task<bool> ApplyCoupon(string userId, string couponCode)
         {
-            throw new NotImplementedException();
+            var cartHeader = await _mySqlContext.CartHeaders.FirstOrDefaultAsync(x => x.UserId == userId);
+
+            if (cartHeader != null)
+            {
+                cartHeader.CouponCode = couponCode;
+                _mySqlContext.CartHeaders.Update(cartHeader);
+                await _mySqlContext.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<bool> ClearCart(string userId)
@@ -55,7 +65,17 @@ namespace GeekShopping.CartApi.Repository
 
         public async Task<bool> RemoveCoupon(string userId)
         {
-            throw new NotImplementedException();
+            var cartHeader = await _mySqlContext.CartHeaders.FirstOrDefaultAsync(x => x.UserId == userId);
+
+            if (cartHeader != null)
+            {
+                cartHeader.CouponCode = "";
+                _mySqlContext.CartHeaders.Update(cartHeader);
+                await _mySqlContext.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<bool> RemoveFromCart(long cartDetailsId)

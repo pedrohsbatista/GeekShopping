@@ -10,7 +10,7 @@ namespace GeekShopping.CartApi.Repository
 
         Task<bool> RemoveFromCart(long cartDetailsId);
 
-        Task<bool> ApplyCoupon(string userId, long couponCode);
+        Task<bool> ApplyCoupon(string userId, string couponCode);
 
         Task<bool> RemoveCoupon(string userId);
 
