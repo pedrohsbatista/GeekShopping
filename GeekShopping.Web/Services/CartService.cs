@@ -39,14 +39,19 @@ namespace GeekShopping.Web.Services
             return await response.ReadContentAs<bool>();
         }
 
-        public async Task<CartHeaderViewModel> Checkout(CartHeaderViewModel cartHeaderViewModel, string token)
+        public async Task<object> Checkout(CartHeaderViewModel cartHeaderViewModel, string token)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var response = await _httpClient.PostAsJson($"{BasePath}/checkout", cartHeaderViewModel);
 
             if (!response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode.ToString().Equals("PreconditionFailed"))
+                    return "Coupon price has changed, please confirm";
+                
                 throw new Exception("Something went wrong when calling API");
+            }                
 
             return await response.ReadContentAs<CartHeaderViewModel>();
         }
