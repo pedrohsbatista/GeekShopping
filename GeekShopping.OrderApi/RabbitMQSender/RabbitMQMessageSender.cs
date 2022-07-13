@@ -1,10 +1,10 @@
-﻿using GeekShopping.CartApi.Messages;
-using GeekShopping.MessageBus;
+﻿using GeekShopping.MessageBus;
+using GeekShopping.OrderApi.Messages;
 using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
 
-namespace GeekShopping.CartApi.RabbitMQSender
+namespace GeekShopping.OrderApi.RabbitMQSender
 {
     public class RabbitMQMessageSender : IRabbitMQMessageSender
     {
@@ -15,12 +15,12 @@ namespace GeekShopping.CartApi.RabbitMQSender
 
         public RabbitMQMessageSender()
         {
-            _hostName = "localhost";            
+            _hostName = "localhost";
             _password = "guest";
             _userName = "guest";
         }
 
-        public void SendMessage(BaseMessage baseMessage, string queueName)
+        public void SendMessage(BaseMessage baseMessage, string queueName )
         {
             if (ConnectionExists())
             {
@@ -28,17 +28,17 @@ namespace GeekShopping.CartApi.RabbitMQSender
                 channel.QueueDeclare(queue: queueName, false, false, false, arguments: null);
                 byte[] body = GetMessageAsByteArray(baseMessage);
                 channel.BasicPublish(exchange: "", routingKey: queueName, basicProperties: null, body: body);
-            }            
+            }
         }
 
         private byte[] GetMessageAsByteArray(BaseMessage baseMessage)
         {
             var options = new JsonSerializerOptions
             {
-                WriteIndented = true
+                 WriteIndented = true
             };
 
-            var json = JsonSerializer.Serialize<CheckoutHeaderVO>((CheckoutHeaderVO)baseMessage, options);
+            var json = JsonSerializer.Serialize<PaymentVO>((PaymentVO)baseMessage, options);
             var body = Encoding.UTF8.GetBytes(json);
             return body;
         }
@@ -61,7 +61,7 @@ namespace GeekShopping.CartApi.RabbitMQSender
                 {
                     HostName = _hostName,
                     Password = _password,
-                    UserName = _userName,
+                    UserName = _userName
                 };
 
                 _connection = factory.CreateConnection();
@@ -69,7 +69,7 @@ namespace GeekShopping.CartApi.RabbitMQSender
             catch (Exception)
             {
                 throw;
-            }          
+            }
         }
     }
 }

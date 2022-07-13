@@ -1,9 +1,7 @@
-using GeekShopping.OrderApi.MessageConsumer;
-using GeekShopping.OrderApi.Model.Context;
-using GeekShopping.OrderApi.RabbitMQSender;
-using GeekShopping.OrderApi.Repository;
+using GeekShopping.PaymentApi.MessageConsumer;
+using GeekShopping.PaymentApi.RabbitMQSender;
+using GeekShopping.PaymentProcessor;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -11,21 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-var connection = builder.Configuration["MySqlConnection:MySqlConnectionString"];
-
-builder.Services.AddDbContext<MySqlContext>(options =>
-                options.UseMySql(connection, new MySqlServerVersion(new Version(8, 0, 28))));
-
-var dbContextOptionsBuilder = new DbContextOptionsBuilder<MySqlContext>();
-dbContextOptionsBuilder.UseMySql(connection, new MySqlServerVersion(new Version(8, 0, 28)));
-
-builder.Services.AddSingleton(new OrderRepository(dbContextOptionsBuilder.Options));
-
-builder.Services.AddHostedService<RabbitMQCheckoutConsumer>();
-
-builder.Services.AddHostedService<RabbitMQPaymentConsumer>();
+builder.Services.AddSingleton<IProcessPayment, ProcessPayment>();
 
 builder.Services.AddSingleton<IRabbitMQMessageSender, RabbitMQMessageSender>();
+
+builder.Services.AddHostedService<RabbitMQPaymentConsumer>();
 
 builder.Services.AddControllers();
 
@@ -56,8 +44,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "GeekShopping.OrderAPI", Version = "v1" });
-    c.EnableAnnotations();
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "GeekShopping.PaymentAPI", Version = "v1" });
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = @"Enter 'Bearer' [space] and your token!",
@@ -73,12 +60,12 @@ builder.Services.AddSwaggerGen(c =>
             {
                 Reference = new OpenApiReference
                 {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
+                   Type = ReferenceType.SecurityScheme,
+                   Id = "Bearer"
                 },
                 Scheme = "oauth2",
                 Name = "Bearer",
-                In = ParameterLocation.Header
+                In = ParameterLocation.Header                
             },
             new List<string>()
         }
