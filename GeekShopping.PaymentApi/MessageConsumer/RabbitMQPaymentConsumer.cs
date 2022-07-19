@@ -60,7 +60,7 @@ namespace GeekShopping.PaymentApi.MessageConsumer
                     Email = paymentMessage.Email
                 };
 
-                _rabbitMQMessageSender.SendMessage(updatePaymentResultMessage, "orderPaymentResultQueue");
+                _rabbitMQMessageSender.SendMessage(updatePaymentResultMessage);
             }
             catch (Exception)
             {
